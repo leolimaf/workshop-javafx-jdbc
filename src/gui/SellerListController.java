@@ -57,7 +57,7 @@ public class SellerListController implements Initializable, DataChangeListener {
     public void onBtnNewAction(ActionEvent event) {
         Stage parentStage = Utils.currentStage(event);
         Seller obj = new Seller();
-//        createDialogForm(obj, "/gui/SellerForm.fxml", parentStage);
+        createDialogForm(obj, "/gui/SellerForm.fxml", parentStage);
     }
 
     public void setService(SellerService service) {
@@ -89,57 +89,57 @@ public class SellerListController implements Initializable, DataChangeListener {
         List<Seller> list = service.findAll();
         observableList = FXCollections.observableArrayList(list);
         tableViewSeller.setItems(observableList);
-//        initEditButtons();
+        initEditButtons();
         initRemoveButtons();
     }
 
-//    private void createDialogForm(Seller obj, String absoluteName, Stage parentStage) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-//            Pane pane = loader.load();
-//
-//            SellerFormController controller = loader.getController();
-//            controller.setSeller(obj);
-//            controller.setSellerService(new SellerService());
-//            controller.subscribeDataChangeListener(this);
-//            controller.updateFormData();
-//
-//            Stage dialogStage = new Stage();
-//            dialogStage.setTitle("Enter Seller data");
-//            dialogStage.setScene(new Scene(pane));
-//            dialogStage.setResizable(false);
-//            dialogStage.initOwner(parentStage);
-//            dialogStage.initModality(Modality.WINDOW_MODAL);
-//            dialogStage.showAndWait();
-//        } catch (IOException e) {
-//            Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), Alert.AlertType.ERROR);
-//        }
-//    }
+    private void createDialogForm(Seller obj, String absoluteName, Stage parentStage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+            Pane pane = loader.load();
+
+            SellerFormController controller = loader.getController();
+            controller.setSeller(obj);
+            controller.setSellerService(new SellerService());
+            controller.subscribeDataChangeListener(this);
+            controller.updateFormData();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Enter Seller data");
+            dialogStage.setScene(new Scene(pane));
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(parentStage);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
 
     @Override
     public void onDataChanged() {
-//        updateTableView();
+        updateTableView();
     }
 
-//    private void initEditButtons() {
-//        tableColumnEdit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-//        tableColumnEdit.setCellFactory(param -> new TableCell<Seller, Seller>() {
-//            private final Button button = new Button("edit");
-//
-//            @Override
-//            protected void updateItem(Seller obj, boolean empty) {
-//                super.updateItem(obj, empty);
-//                if (obj == null) {
-//                    setGraphic(null);
-//                    return;
-//                }
-//                setGraphic(button);
-//                button.setOnAction(
-//                        event -> createDialogForm(
-//                                obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
-//            }
-//        });
-//    }
+    private void initEditButtons() {
+        tableColumnEdit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        tableColumnEdit.setCellFactory(param -> new TableCell<Seller, Seller>() {
+            private final Button button = new Button("edit");
+
+            @Override
+            protected void updateItem(Seller obj, boolean empty) {
+                super.updateItem(obj, empty);
+                if (obj == null) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(button);
+                button.setOnAction(
+                        event -> createDialogForm(
+                                obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
+            }
+        });
+    }
 
     private void initRemoveButtons() {
         tableColumnRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
@@ -167,7 +167,7 @@ public class SellerListController implements Initializable, DataChangeListener {
             }
             try {
                 service.remove(obj);
-//                updateTableView();
+                updateTableView();
             } catch (DbIntegrityException e){
                 Alerts.showAlert("Error removing object",null, e.getMessage(), Alert.AlertType.ERROR);
             }
